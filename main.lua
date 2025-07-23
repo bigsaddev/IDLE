@@ -14,9 +14,10 @@ function love.load()
         fullscreen = false,
         pixelperfect = true,
         resizable = false,
+        highdpi = true,
     })
 
-    gridSize = 4
+    gridSize = 6
     tileSize = 16
     crops = {}
     money = 0

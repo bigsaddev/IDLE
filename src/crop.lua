@@ -6,7 +6,7 @@ function Crop:new(x, y)
         x = x,
         y = y,
         state = "empty",
-        growTime = 5,
+        growTime = 60,
         timer = 0,
     }, Crop)
 end
@@ -53,10 +53,8 @@ function Crop:draw()
 
     if self.state == "growing" then
         local progress = math.min(self.timer / self.growTime, 1)
-        love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle("line", px, py + 12, 16, 2)
-        love.graphics.setColor(0, 1, 0)
-        love.graphics.rectangle("fill", px + 1, py + 13, (14 * progress), 1)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle("fill", px + 1, py + 14, (14 * progress), 1)
     end
 end
 
