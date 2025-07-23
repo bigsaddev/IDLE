@@ -1,5 +1,5 @@
 local Crop = require ("src.crop")
-local push = require("vendor.push")
+local player = require("src.player")
 
 local Field = {}
 Field.__index = Field
@@ -51,7 +51,8 @@ function Field:click(mx, my)
     if tileX >= 1 and tileX <= self.gridSize and tileY >= 1 and tileY <= self.gridSize then
         local crop = self.crops[tileX][tileY]
 
-        if crop.state == "empty" then
+        if crop.state == "empty" and player.seeds >= 1 then
+            player.seeds = player.seeds - 1
             crop:plant()
         elseif crop.state == "grown" then
             crop:harvest()

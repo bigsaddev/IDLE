@@ -5,7 +5,6 @@ local player = require("src.player")
 
 local font
 local field
---local field2
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -20,19 +19,16 @@ function love.load()
     })
 
     field = Field:new(0, 0)
-    --field2 = Field:new(64, 0)
 end
 
 function love.update(dt)
     field:update(dt)
-    --field2:update(dt)
 end
 
 function love.draw()
     push:start()
     love.graphics.clear({0.184, 0.141, 0.259})
     field:draw()
-    --field2:draw()
     player:draw(font)
     push:finish()
 end
@@ -43,9 +39,12 @@ function love.mousepressed(x, y, button)
         -- Check if the click is within the field area
         if virtualX and virtualY then
             field:click(virtualX, virtualY)
-            --field2:click(virtualX, virtualY)
+        end
+        if player:isMouseOverBuy(virtualX, virtualY) then
+            player:buy()
         end
     end
+
 end
 
 function love.keypressed(key)

@@ -10,7 +10,7 @@ function Crop:new(x, y)
 
     local animations = {
         empty = anim8.newAnimation(grid("1-3", 1), 1),
-        growing = anim8.newAnimation(grid("1-3", 2), 0.6666667),
+        growing = anim8.newAnimation(grid("1-3", 2), 0.66),
         grown = anim8.newAnimation(grid("1-3", 3), 0.5),
     }
 
@@ -49,7 +49,7 @@ function Crop:harvest()
     if self.state == "grown" then
         self.state = "empty"
         self.timer = 0
-        player.money = player.money + 10
+        player.money = player.money + 12
     end
 end
 
