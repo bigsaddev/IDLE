@@ -1,13 +1,27 @@
 local Crop = {}
 Crop.__index = Crop
 
-function Crop:new(x, y) 
+local anim8 = require("vendor.anim8")
+
+function Crop:new(x, y)
+    local grid = anim8.newGrid(16, 16, 48, 16)
+    local sprite = love.graphics.newImage("assets/crops.png")
+
+    local animations = {
+        empty = anim8.newAnimation(grid("1-1", 1), 1),
+        growing = anim8.newAnimation(grid("2-2", 1), 1),
+        grown = anim8.newAnimation(grid("3-3", 1), 1),
+    }
+
     return setmetatable({
         x = x,
         y = y,
         state = "empty",
         growTime = 2,
         timer = 0,
+        animations = animations,
+        sprite = sprite,
+        currentAnimation = animations.empty
     }, Crop)
 end
 
@@ -19,6 +33,9 @@ function Crop:plant()
 end
 
 function Crop:update(dt)
+    -- update animation regardless of state, future proofing for more frames lmao
+    self.currentAnimation:update(dt)
+
     if self.state == "growing" then
         self.timer = self.timer + dt
         if self.timer >= self.growTime then
@@ -38,24 +55,27 @@ function Crop:draw(offsetX, offsetY)
     local px = offsetX + (self.x - 1) * 16
     local py = offsetY + (self.y - 1) * 16
 
+    -- Set correct animation based on state
     if self.state == "empty" then
-        love.graphics.setColor(0.4, 0.25, 0)
+        self.currentAnimation = self.animations.empty
     elseif self.state == "growing" then
-        love.graphics.setColor(0.75, 0.75, 0)
+        self.currentAnimation = self.animations.growing
     elseif self.state == "grown" then
-        love.graphics.setColor(0.5, 0.9, 0.5)
+        self.currentAnimation = self.animations.grown
     end
 
-    love.graphics.rectangle("fill", px, py, 16, 16)
+    -- Draw current frame of the animation
+    self.currentAnimation:draw(self.sprite, px, py)
 
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.rectangle("line", px, py, 16, 16)
-
+    -- Draw growth bar if growing
     if self.state == "growing" then
         local progress = math.min(self.timer / self.growTime, 1)
-        love.graphics.setColor(1, 1, 1)
+        love.graphics.setColor(0, 1, 0)
         love.graphics.rectangle("fill", px + 1, py + 14, (14 * progress), 1)
     end
+
+    -- Reset color
+    love.graphics.setColor(1, 1, 1)
 end
 
 return Crop
