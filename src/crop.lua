@@ -2,6 +2,7 @@ local Crop = {}
 Crop.__index = Crop
 
 local anim8 = require("vendor.anim8")
+local player = require("src.player")
 
 function Crop:new(x, y)
     local grid = anim8.newGrid(16, 16, 48, 16)
@@ -48,6 +49,7 @@ function Crop:harvest()
     if self.state == "grown" then
         self.state = "empty"
         self.timer = 0
+        player.money = player.money + 10
     end
 end
 

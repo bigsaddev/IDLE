@@ -1,9 +1,12 @@
 require("src.util")
 local push = require("vendor.push")
 local Field = require("src.field")
+local player = require("src.player")
 
 local font
 local field
+--local field2
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     font = love.graphics.newFont("assets/fonts/Tiny5.ttf", 8)
@@ -16,26 +19,31 @@ function love.load()
         highdpi = true,
     })
 
-    field = Field:new(32, 64)
+    field = Field:new(0, 0)
+    --field2 = Field:new(64, 0)
 end
 
 function love.update(dt)
     field:update(dt)
+    --field2:update(dt)
 end
 
 function love.draw()
     push:start()
     love.graphics.clear({0.33, 0.66, 0.33})
     field:draw()
+    --field2:draw()
+    player:draw()
     push:finish()
 end
 
 function love.mousepressed(x, y, button)
+    local virtualX, virtualY = push:toGame(x, y)
     if button == 1 then
-        local virtualX, virtualY = push:toGame(x, y)
         -- Check if the click is within the field area
         if virtualX and virtualY then
             field:click(virtualX, virtualY)
+            --field2:click(virtualX, virtualY)
         end
     end
 end
