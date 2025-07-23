@@ -1,10 +1,9 @@
 require("src.util")
 local push = require("vendor.push")
-
-local Crop = require("src.crop")
+local Field = require("src.field")
 
 local font
-
+local field
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     font = love.graphics.newFont("assets/fonts/Tiny5.ttf", 8)
@@ -17,58 +16,26 @@ function love.load()
         highdpi = true,
     })
 
-    gridSize = 6
-    tileSize = 16
-    crops = {}
-    money = 0
-
-    for x = 1, gridSize do
-        crops[x] = {}
-        for y = 1, gridSize do
-            crops[x][y] = Crop:new(x, y)
-        end
-    end
+    field = Field:new(32, 64)
 end
 
 function love.update(dt)
-    for x = 1, gridSize do
-        for y = 1, gridSize do
-            crops[x][y]:update(dt)
-        end
-    end
+    field:update(dt)
 end
 
 function love.draw()
     push:start()
-    love.graphics.clear({0.33, 0.33, 0.33})
-    love.graphics.print("Money: $ " .. money, 0, Util.Dimensions.gameHeight-20)
-
-    for x = 1, gridSize do
-        for y = 1, gridSize do
-            crops[x][y]:draw()
-        end
-    end
-
+    love.graphics.clear({0.33, 0.66, 0.33})
+    field:draw()
     push:finish()
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
-        -- Translate screen-space mouse to game-space using push
-        local mx, my = push:toGame(x, y)
-        if not mx or not my then return end  -- click was outside the game canvas
-
-        local gx = math.floor(mx / tileSize) + 1
-        local gy = math.floor(my / tileSize) + 1
-
-        if gx >= 1 and gx <= gridSize and gy >= 1 and gy <= gridSize then
-            local crop = crops[gx][gy]
-            if crop.state == "empty" then
-                crop:plant()
-            elseif crop.state == "grown" then
-                crop:harvest()
-                money = money + 10
-            end
+        local virtualX, virtualY = push:toGame(x, y)
+        -- Check if the click is within the field area
+        if virtualX and virtualY then
+            field:click(virtualX, virtualY)
         end
     end
 end

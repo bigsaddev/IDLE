@@ -6,7 +6,7 @@ function Crop:new(x, y)
         x = x,
         y = y,
         state = "empty",
-        growTime = 60,
+        growTime = 2,
         timer = 0,
     }, Crop)
 end
@@ -34,16 +34,16 @@ function Crop:harvest()
     end
 end
 
-function Crop:draw()
-    local px = (self.x - 1) * 16
-    local py = (self.y - 1) * 16
+function Crop:draw(offsetX, offsetY)
+    local px = offsetX + (self.x - 1) * 16
+    local py = offsetY + (self.y - 1) * 16
 
     if self.state == "empty" then
-        love.graphics.setColor(0.4, 0.25, 0.1)
+        love.graphics.setColor(0.4, 0.25, 0)
     elseif self.state == "growing" then
-        love.graphics.setColor(0.5, 0.8, 0.5)
+        love.graphics.setColor(0.75, 0.75, 0)
     elseif self.state == "grown" then
-        love.graphics.setColor(0.1, 1.0, 0.1)
+        love.graphics.setColor(0.5, 0.9, 0.5)
     end
 
     love.graphics.rectangle("fill", px, py, 16, 16)
