@@ -5,13 +5,13 @@ local anim8 = require("vendor.anim8")
 local player = require("src.player")
 
 function Crop:new(x, y)
-    local grid = anim8.newGrid(16, 16, 48, 16)
-    local sprite = love.graphics.newImage("assets/crops.png")
+    local grid = anim8.newGrid(16, 16, 48, 48)
+    local sprite = love.graphics.newImage("assets/crops_anim.png")
 
     local animations = {
-        empty = anim8.newAnimation(grid("1-1", 1), 1),
-        growing = anim8.newAnimation(grid("2-2", 1), 1),
-        grown = anim8.newAnimation(grid("3-3", 1), 1),
+        empty = anim8.newAnimation(grid("1-3", 1), 1),
+        growing = anim8.newAnimation(grid("1-3", 2), 0.6666667),
+        grown = anim8.newAnimation(grid("1-3", 3), 0.5),
     }
 
     return setmetatable({

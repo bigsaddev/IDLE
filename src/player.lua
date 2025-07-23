@@ -3,8 +3,9 @@ local Player = {
 }
 Player.__index = Player
 
-function Player:draw()
-    love.graphics.print(self.money, 2, 2)
+function Player:draw(font)
+    local moneyTextWidth = font:getWidth(self.money .. "$")
+    love.graphics.print(self.money .. "$", Util.Dimensions.gameWidth-moneyTextWidth, 0)
 end
 
 return Player

@@ -30,10 +30,10 @@ end
 
 function love.draw()
     push:start()
-    love.graphics.clear({0.33, 0.66, 0.33})
+    love.graphics.clear({0.184, 0.141, 0.259})
     field:draw()
     --field2:draw()
-    player:draw()
+    player:draw(font)
     push:finish()
 end
 
