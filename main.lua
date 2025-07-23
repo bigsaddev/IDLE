@@ -18,7 +18,7 @@ function love.load()
         highdpi = true,
     })
 
-    field = Field:new(0, 0)
+    field = Field:new(32, 0)
 end
 
 function love.update(dt)

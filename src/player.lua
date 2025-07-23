@@ -2,7 +2,7 @@ local Player = {
     money = 0,
     seeds = 1,
     buySeeds = {
-        x = 1,
+        x = 32,
         y = 66,
         w = 64,
         h = 8,
@@ -14,14 +14,14 @@ function Player:draw(font)
     local moneyTextWidth = font:getWidth(self.money .. "$")
     local seedsTextWidth = font:getWidth("Seeds: " .. self.seeds)
     love.graphics.print(self.money .. "$", Util.Dimensions.gameWidth-moneyTextWidth, 0)
-    love.graphics.print("Seeds: " .. self.seeds, Util.Dimensions.gameWidth-seedsTextWidth-32, 0)
+    love.graphics.print("Seeds: " .. self.seeds, 0, 0)
     self:Button()
 end
 
 function Player:Button()
     love.graphics.rectangle("fill", self.buySeeds.x, self.buySeeds.y, self.buySeeds.w, self.buySeeds.h)
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print("Buy Seeds", 16, 66)
+    love.graphics.print("Buy Seed", 48, 65)
     love.graphics.rectangle("line", self.buySeeds.x, self.buySeeds.y, self.buySeeds.w, self.buySeeds.h)
     love.graphics.setColor(1, 1, 1)
 end
