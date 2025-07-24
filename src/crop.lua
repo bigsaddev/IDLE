@@ -18,7 +18,7 @@ function Crop:new(x, y)
         x = x,
         y = y,
         state = "empty",
-        growTime = 2,
+        growTime = 60, --seconds to grow
         timer = 0,
         animations = animations,
         sprite = sprite,

@@ -60,5 +60,4 @@ function Field:click(mx, my)
     end
 end
 
-
 return Field

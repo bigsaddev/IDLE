@@ -44,7 +44,6 @@ function love.mousepressed(x, y, button)
             player:buy()
         end
     end
-
 end
 
 function love.keypressed(key)

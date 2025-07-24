@@ -6,13 +6,14 @@ local Player = {
         y = 66,
         w = 64,
         h = 8,
-    }
+    },
+    level = 1,
+    experience = 0,
 }
 Player.__index = Player
 
 function Player:draw(font)
     local moneyTextWidth = font:getWidth(self.money .. "$")
-    local seedsTextWidth = font:getWidth("Seeds: " .. self.seeds)
     love.graphics.print(self.money .. "$", Util.Dimensions.gameWidth-moneyTextWidth, 0)
     love.graphics.print("Seeds: " .. self.seeds, 0, 0)
     self:Button()
