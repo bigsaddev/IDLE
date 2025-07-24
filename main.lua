@@ -23,6 +23,7 @@ end
 
 function love.update(dt)
     field:update(dt)
+    player:update(dt)
 end
 
 function love.draw()

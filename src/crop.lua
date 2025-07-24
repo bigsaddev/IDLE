@@ -18,8 +18,9 @@ function Crop:new(x, y)
         x = x,
         y = y,
         state = "empty",
-        growTime = 60, --seconds to grow
+        growTime = 2, --seconds to grow
         timer = 0,
+        xpReward = 12,
         animations = animations,
         sprite = sprite,
         currentAnimation = animations.empty
@@ -47,9 +48,10 @@ end
 
 function Crop:harvest()
     if self.state == "grown" then
-        self.state = "empty"
         self.timer = 0
         player.money = player.money + 12
+        player.experience = player.experience + self.xpReward
+        self.state = "empty"
     end
 end
 

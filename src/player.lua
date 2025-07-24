@@ -9,14 +9,25 @@ local Player = {
     },
     level = 1,
     experience = 0,
+    seedImage = love.graphics.newImage("assets/seed.png")
 }
 Player.__index = Player
+Player.seedImage:setFilter("nearest", "nearest")
 
 function Player:draw(font)
     local moneyTextWidth = font:getWidth(self.money .. "$")
     love.graphics.print(self.money .. "$", Util.Dimensions.gameWidth-moneyTextWidth, 0)
-    love.graphics.print("Seeds: " .. self.seeds, 0, 0)
+    love.graphics.draw(self.seedImage, 0, 0)
+    love.graphics.print(self.seeds, 10, 0)
     self:Button()
+    self:XPBar(font)
+end
+
+function Player:update(dt)
+    if self.experience >= self.level * 100 then
+        self.experience = self.experience - self.level * 100
+        self.level = self.level + 1
+    end
 end
 
 function Player:Button()
@@ -32,6 +43,17 @@ function Player:buy()
         self.money = self.money - 10
         self.seeds = self.seeds + 1
     end
+end
+
+function Player:XPBar(font)
+    love.graphics.setColor(0.5, 0.5, 0.5)
+    love.graphics.rectangle("fill", 0, Util.Dimensions.gameHeight - 8, Util.Dimensions.gameWidth, 8)
+    love.graphics.setColor(0, 1, 0)
+    local xpWidth = (self.experience / (self.level * 100)) * Util.Dimensions.gameWidth
+    love.graphics.rectangle("fill", 0, Util.Dimensions.gameHeight - 8, xpWidth, 8)
+    love.graphics.setColor(0, 0, 0)
+    local levelWidth = font:getWidth("Level: " .. self.level) / 2
+    love.graphics.print("Level: " .. self.level, Util.Dimensions.gameWidth / 2 - levelWidth, Util.Dimensions.gameHeight - 8)
 end
 
 function Player:isMouseOverBuy(mx, my)
